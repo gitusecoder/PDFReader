@@ -1,0 +1,16 @@
+function extractTextFromPDF() {
+// Mention the pdf file below
+var fileName = ' '
+  // create blob from URL
+  var blob = DriveApp.getFilesByName(fileName).next().getBlob();
+  // create resource
+  var resource = {title: blob.getName(),
+    mimeType: blob.getContentType()
+  };
+  // enable the Advanced Drive API Service
+  var file = Drive.Files.insert(resource, blob, {ocr: true, ocrLanguage: "en"});
+  // extract text from PDF file
+  var doc = DocumentApp.openById(file.id);
+  var text = doc.getBody().getText();
+  Browser.msgBox(text);
+  }
